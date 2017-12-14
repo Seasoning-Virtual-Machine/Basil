@@ -101,8 +101,11 @@ ENV/
 .mypy_cache/
 
 .idea/
+
 Basil.tokens
 BasilLexer.py
 BasilLexer.tokens
 BasilListener.py
 BasilParser.py
+
+temp.sasm
