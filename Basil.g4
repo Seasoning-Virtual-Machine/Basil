@@ -8,11 +8,13 @@ options {
  * Parser Rules
  */
 
-code: line + EOF;
+program: code + EOF;
+code: line+;
 
-line: (line_number (expression | statement)) | COMMENT;
+line: (line_number (expression_statement (NEWLINE expression_statement?)*)) | COMMENT;
 
 line_number: NUMBER;
+expression_statement: expression | statement;
 
 statement: end_statement;
 end_statement: END;
@@ -30,6 +32,7 @@ TIMES: '*';
 DIV: '/';
 EQUALS: '=';
 
+NEWLINE: '\n';
 END: 'END';
 
 COMMENT: ['] ~[\r\n]* -> skip;
