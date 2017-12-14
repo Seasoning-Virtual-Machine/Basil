@@ -9,13 +9,35 @@ import io
 class BasilCompiler(BasilListener):
     def __init__(self, asm: io.FileIO):
         self.asm = asm
+        self.arithmetic_operators = []
 
     def enterArith_expr(self, ctx: BasilParser.Arith_exprContext):
-        for item in ctx.NUMBER():
+        for item in ctx.getChildren():
             # print(item)
-            self.asm.write("PUSH,{},".format(item))
 
-    def enterStatement(self, ctx:BasilParser.StatementContext):
+            if str(item).isnumeric():
+                self.asm.write("PUSH,{},".format(item))
+
+            elif str(item) in ["+", "-", "*", "/"]:
+                self.arithmetic_operators.append(item)
+
+    def exitArith_expr(self, ctx: BasilParser.Arith_exprContext):
+        for item in self.arithmetic_operators:
+            if str(item) == "+":
+                self.asm.write("ADD,")
+
+            elif str(item) == "-":
+                self.asm.write("SUB,")
+
+            elif str(item) == "*":
+                self.asm.write("MUL")
+
+            elif str(item) == "/":
+                self.asm.write("DIV")
+
+        self.arithmetic_operators = []
+
+    def enterStatement(self, ctx: BasilParser.StatementContext):
         if ctx.getText() == "END":
             self.asm.write("HALT")
 
