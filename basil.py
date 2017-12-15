@@ -33,10 +33,10 @@ class BasilCompiler(BasilListener):
                 self.asm.write("SUB,")
 
             elif str(item) == "*":
-                self.asm.write("MUL")
+                self.asm.write("MUL,")
 
             elif str(item) == "/":
-                self.asm.write("DIV")
+                self.asm.write("DIV,")
 
         self.arithmetic_operators = []
 
