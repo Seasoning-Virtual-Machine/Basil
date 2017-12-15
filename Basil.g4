@@ -13,16 +13,18 @@ code: (line_number line (SEMICOLON (line)*)*)+;
 
 line: expression | statement | COMMENT;
 
-line_number: NUMBER;
+line_number: NUMBERS;
 
 statement: assignment_statement | print_statement | input_statement | end_statement;
-assignment_statement: LET ID EQUAL (STRING | NUMBER | expression | ID);
-print_statement: PRINT (STRING | NUMBER | BOOLEAN | expression)?;
+assignment_statement: LET? variable_name EQUAL (STRING | NUMBERS | expression | variable_name);
+print_statement: PRINT (STRING | NUMBERS | BOOLEAN | expression)?;
 input_statement: INPUT;
 end_statement: END;
 
 expression: arithmetic_expression;
-arithmetic_expression: NUMBER ((PLUS | MINUS | TIMES | DIV) NUMBER)+;
+arithmetic_expression: NUMBERS ((PLUS | MINUS | TIMES | DIV) NUMBERS)+;
+
+variable_name: LETTERS (LETTERS | NUMBERS)*;
 
 /*
  * Lexer Rules
@@ -48,7 +50,7 @@ SPACE: [ \t\r\n] -> skip;
 STRING: ["] ~["\r\n]* ["];
 
 LETTERS: ([a-z] | [A-Z])+;
-NUMBER: [0-9]+;
+NUMBERS: [0-9]+;
 BOOLEAN: 'TRUE' | 'FALSE';
 ID: [a-z]+;
 
