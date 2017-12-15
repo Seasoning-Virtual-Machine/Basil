@@ -8,7 +8,7 @@ options {
  * Parser Rules
  */
 
-program: code+ EOF;
+program: code+ END;
 code: line+;
 
 line: (line_number (expression_statement (NEWLINE expression_statement?)*)) | COMMENT;
@@ -17,7 +17,7 @@ line_number: NUMBER;
 expression_statement: expression | statement;
 
 statement: print_statement | input_statement | end_statement;
-print_statement: PRINT (STRING | NUMBER | BOOLEAN | expression);
+print_statement: PRINT (STRING | NUMBER | BOOLEAN | expression)?;
 input_statement: INPUT;
 end_statement: END;
 
@@ -30,6 +30,7 @@ arithmetic_expression: NUMBER ((PLUS | MINUS | TIMES | DIV) NUMBER)+;
 
 PRINT: 'PRINT';
 INPUT: 'INPUT';
+LET: 'LET';
 
 PLUS: '+';
 MINUS: '-';
