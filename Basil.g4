@@ -16,15 +16,20 @@ line: (line_number (expression_statement (NEWLINE expression_statement?)*)) | CO
 line_number: NUMBER;
 expression_statement: expression | statement;
 
-statement: end_statement;
+statement: print_statement | input_statement | end_statement;
+print_statement: PRINT (STRING | NUMBER | BOOLEAN | expression);
+input_statement: INPUT;
 end_statement: END;
 
-expression: arith_expr;
-arith_expr: NUMBER ((PLUS | MINUS | TIMES | DIV) NUMBER)+;
+expression: arithmetic_expression;
+arithmetic_expression: NUMBER ((PLUS | MINUS | TIMES | DIV) NUMBER)+;
 
 /*
  * Lexer Rules
  */
+
+PRINT: 'PRINT';
+INPUT: 'INPUT';
 
 PLUS: '+';
 MINUS: '-';
@@ -43,5 +48,6 @@ STRING: ["] ~["\r\n]* ["];
 LETTERS: ([a-z] | [A-Z])+;
 NUMBER: [0-9]+;
 BOOLEAN: 'TRUE' | 'FALSE';
+ID: [a-z]+;
 
 WS: [ \t\r\n\f]+ -> skip;
