@@ -9,14 +9,14 @@ options {
  */
 
 program: code+ END;
-code: line+;
+code: (line_number line (SEMICOLON line)*)+;
 
-line: (line_number (expression_statement (NEWLINE expression_statement?)*)) | COMMENT;
+line: expression | statement | COMMENT;
 
 line_number: NUMBER;
-expression_statement: expression | statement;
 
-statement: print_statement | input_statement | end_statement;
+statement: assignment_statement | print_statement | input_statement | end_statement;
+assignment_statement: LET ID EQUAL NUMBER;
 print_statement: PRINT (STRING | NUMBER | BOOLEAN | expression)?;
 input_statement: INPUT;
 end_statement: END;
@@ -36,8 +36,9 @@ PLUS: '+';
 MINUS: '-';
 TIMES: '*';
 DIV: '/';
-EQUALS: '=';
+EQUAL: '=';
 
+SEMICOLON: ';';
 NEWLINE: '\n';
 END: 'END';
 
