@@ -49,9 +49,8 @@ class BasilCompiler(BasilListener):
         other = other.strip("qwertyuiopasdfghjklzxcvbnm =")
 
         variable = ctx.getText().split("PRINT")[-1]
-        print("-----------", variable)
 
-        print("Strips:", text, other, another)
+        # print("Strips:", text, other, another)
 
         if text == "END":
             self.asm.write("HALT")
