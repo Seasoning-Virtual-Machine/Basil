@@ -48,13 +48,21 @@ class BasilCompiler(BasilListener):
         another = other.strip("1234567890 =")
         other = other.strip("qwertyuiopasdfghjklzxcvbnm =")
 
-        # print("Strips:", text, other, another)
+        variable = ctx.getText().split("PRINT")[-1]
+        print("-----------", variable)
+
+        print("Strips:", text, other, another)
 
         if text == "END":
             self.asm.write("HALT")
 
         elif text == "PRINT":
-            self.asm.write("PRINT,{},".format(other))
+            if variable in self.variables:
+                print_ = self.variables[variable]
+            else:
+                print_ = other
+
+            self.asm.write("PRINT,{},".format(print_))
 
         elif text == "INPUT":
             self.asm.write("IN,")

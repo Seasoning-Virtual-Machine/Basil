@@ -16,15 +16,15 @@ line: expression | statement | COMMENT;
 line_number: NUMBERS;
 
 statement: assignment_statement | print_statement | input_statement | end_statement;
-assignment_statement: LET? variable_name EQUAL (STRING | NUMBERS | expression | variable_name);
-print_statement: PRINT (STRING | NUMBERS | BOOLEAN | expression)?;
+assignment_statement: LET variable_name EQUAL (STRING | NUMBERS | expression | variable_name);
+print_statement: PRINT (STRING | NUMBERS | BOOLEAN | expression | variable_name);
 input_statement: INPUT;
 end_statement: END;
 
 expression: arithmetic_expression;
 arithmetic_expression: NUMBERS ((PLUS | MINUS | TIMES | DIV) NUMBERS)+;
 
-variable_name: LETTERS (LETTERS | NUMBERS)*;
+variable_name: LETTERS;
 
 /*
  * Lexer Rules
