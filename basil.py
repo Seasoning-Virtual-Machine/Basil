@@ -11,7 +11,9 @@ class BasilCompiler(BasilListener):
         self.asm = asm
         self.arithmetic_operators = []
 
-    def enterLine(self, ctx:BasilParser.LineContext):
+        self.variables = {}
+
+    def enterLine(self, ctx: BasilParser.LineContext):
         print(ctx.getText())
 
     def enterArithmetic_expression(self, ctx: BasilParser.Arithmetic_expressionContext):
@@ -41,8 +43,12 @@ class BasilCompiler(BasilListener):
         self.arithmetic_operators = []
 
     def enterStatement(self, ctx: BasilParser.StatementContext):
-        text = ctx.getText().strip("0123456789 ")
+        text = ctx.getText().strip("0123456789 = qwertyuiopasdfghjklzxcvbnm")
         other = ctx.getText().strip(text)
+        another = other.strip("1234567890 =")
+        other = other.strip("qwertyuiopasdfghjklzxcvbnm =")
+
+        # print("Strips:", text, other, another)
 
         if text == "END":
             self.asm.write("HALT")
@@ -52,6 +58,10 @@ class BasilCompiler(BasilListener):
 
         elif text == "INPUT":
             self.asm.write("IN,")
+
+        elif text == "LET":
+            self.asm.write("MOVE,{},{},".format(other, len(self.variables)))
+            self.variables[another] = other
 
 
 if __name__ == "__main__":
