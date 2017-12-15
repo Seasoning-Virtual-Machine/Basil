@@ -11,7 +11,10 @@ class BasilCompiler(BasilListener):
         self.asm = asm
         self.arithmetic_operators = []
 
-    def enterArith_expr(self, ctx: BasilParser.Arith_exprContext):
+    def enterLine(self, ctx:BasilParser.LineContext):
+        print(ctx.getText())
+
+    def enterArithmetic_expression(self, ctx: BasilParser.Arithmetic_expressionContext):
         for item in ctx.getChildren():
             # print(item)
 
@@ -21,7 +24,7 @@ class BasilCompiler(BasilListener):
             elif str(item) in ["+", "-", "*", "/"]:
                 self.arithmetic_operators.append(item)
 
-    def exitArith_expr(self, ctx: BasilParser.Arith_exprContext):
+    def exitArithmetic_expression(self, ctx: BasilParser.Arithmetic_expressionContext):
         for item in self.arithmetic_operators:
             if str(item) == "+":
                 self.asm.write("ADD,")
@@ -38,8 +41,17 @@ class BasilCompiler(BasilListener):
         self.arithmetic_operators = []
 
     def enterStatement(self, ctx: BasilParser.StatementContext):
-        if ctx.getText() == "END":
+        text = ctx.getText().strip("0123456789 ")
+        other = ctx.getText().strip(text)
+
+        if text == "END":
             self.asm.write("HALT")
+
+        elif text == "PRINT":
+            self.asm.write("PRINT,{},".format(other))
+
+        elif text == "INPUT":
+            self.asm.write("IN,")
 
 
 if __name__ == "__main__":

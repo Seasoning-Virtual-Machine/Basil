@@ -8,7 +8,7 @@ options {
  * Parser Rules
  */
 
-program: code + EOF;
+program: code+ EOF;
 code: line+;
 
 line: (line_number (expression_statement (NEWLINE expression_statement?)*)) | COMMENT;
