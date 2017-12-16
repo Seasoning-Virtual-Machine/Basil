@@ -41,7 +41,7 @@ DIV: '/';
 EQUAL: '=';
 
 SEMICOLON: ';';
-NEWLINE: '\n';
+NEWLINE: '\r\n';
 END: 'END';
 
 COMMENT: ['] ~[\r\n]* -> skip;
